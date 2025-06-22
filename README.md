@@ -3,11 +3,11 @@ fibonacci heap and dijkstra's algorithm implementation in C
 
 # Quick start
 bootstrap nob, just the first time:
-```c
+```bash
 gcc nob.c -o nob
 ```
 compile the libraries with:
-```c
+```bash
 ./nob
 ```
 
