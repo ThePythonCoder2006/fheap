@@ -1,4 +1,6 @@
+#include <stdio.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <math.h>
 
 #define NOB_STRIP_PREFIX
@@ -277,12 +279,12 @@ key_val_pair extract_min(fheap *h)
 
 void print_cycle(fheap_node *root)
 {
-  printf("(%lf, %llu)", root->key, root->val);
+  printf("(%lf, %" PRIu64 ")", root->key, root->val);
   fheap_node *node = root->next;
 
   while (node != root)
   {
-    printf(" -> (%lf, %llu)", node->key, node->val);
+    printf(" -> (%lf, %" PRIu64 ")", node->key, node->val);
     node = node->next;
   }
 
@@ -296,7 +298,7 @@ void print_fheap_inside(const fheap_node *const root)
   if (root == NULL)
     return;
 
-  printf("(%lf, %llu)", root->key, root->val);
+  printf("(%lf, %" PRIu64 ")", root->key, root->val);
   if (root->child != NULL)
   {
     putchar('[');
@@ -308,7 +310,7 @@ void print_fheap_inside(const fheap_node *const root)
 
   while (node != root)
   {
-    printf(" -> (%lf, %llu)", node->key, node->val);
+    printf(" -> (%lf, %" PRIu64 ")", node->key, node->val);
 
     if (node->child != NULL)
     {
