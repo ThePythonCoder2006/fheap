@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 
 int nob_cc_include(Cmd *cmd)
 {
-  cmd_append(cmd, "-I" IDIR, "-I./");
+  cmd_append(cmd, "-I" IDIR, "-I.");
   return 1;
 }
 
