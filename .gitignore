@@ -53,3 +53,5 @@ Mkfile.old
 dkms.conf
 
 nob
+main
+*.old
