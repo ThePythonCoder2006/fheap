@@ -1,0 +1,17 @@
+[
+  {
+    "directory": "/home/paul/document/progra/fheap",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-o", "main",
+      "src/main.c",
+      "-Wall", "-Wextra", "-pedantic",
+      "-Iinclude", "-I./",
+      "-Llib",
+      "-lm",
+      "-ldijkstra",
+      "-lfheap"
+    ],
+     "file": "src/main.c"
+  }
+]

@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <inttypes.h>
 #include <errno.h>
 
 #define NOB_IMPLEMENTATION
 #define NOB_STRIP_PREFIX
 #include "nob.h"
+
+#define __TIMER_IMPLEMENTATION__
+#include <timer.h>
 
 #include "fheap.h"
 #include "dijkstra.h"
@@ -14,24 +19,31 @@ int main(int argc, char **argv)
 {
   (void)argc, (void)argv;
 
+  timer time;
+  timer_start(&time);
+
   graph G = {0};
-  graph_from_path(&G, "inputs/test.txt");
+  graph_from_path(&G, "inputs/NA.txt");
 
-  printf("%llu\n", G.n);
+  printf("%"PRIu64"\n", G.n);
+  printf("loading the file took: %lfs\n", timer_stop(&time));
 
+  timer_start(&time);
   double *d = calloc(G.n, sizeof(double));
   int64_t *pred = calloc(G.n, sizeof(int64_t));
 
-  const uint64_t x0 = 4;
+  const uint64_t x0 = 42012;
   const uint64_t xf = 9;
   dijkstra(pred, d, G, x0);
 
   printf("%lf\n", d[xf]);
+  printf("dijkstra took: %lfs\n", timer_stop(&time));
+
   uint64_t x = xf;
   do
-    printf("%llu <- ", x);
+    printf("%"PRIu64" <- ", x);
   while ((x = pred[x]) != x0);
-  printf("%llu\n", x0);
+  printf("%"PRIu64"\n", x0);
 
   free(d);
   free(pred);
@@ -55,7 +67,7 @@ void graph_from_path(graph *G, const char *const fpath)
   G->n = 0;
 
   uint64_t x = 0, y = 0;
-  while (fscanf(f, "[%llu,%llu,%*f]\n", &x, &y) != EOF)
+  while (fscanf(f, "[%"PRIu64",%"PRIu64",%*f]\n", &x, &y) != EOF)
   {
     if (x > G->n)
       G->n = x;
@@ -70,7 +82,7 @@ void graph_from_path(graph *G, const char *const fpath)
   fseek(f, 0, SEEK_SET);
 
   double dxy = 0;
-  while (fscanf(f, "[%llu,%llu,%lf]\n", &x, &y, &dxy) != EOF)
+  while (fscanf(f, "[%"PRIu64",%"PRIu64",%lf]\n", &x, &y, &dxy) != EOF)
   {
     // non-oriented graph
     ++G->neighbour[x].neighbour_count;
@@ -89,7 +101,7 @@ void graph_from_path(graph *G, const char *const fpath)
 
   fseek(f, 0, SEEK_SET);
 
-  while (fscanf(f, "[%llu,%llu,%lf]\n", &x, &y, &dxy) != EOF)
+  while (fscanf(f, "[%"PRIu64",%"PRIu64",%lf]\n", &x, &y, &dxy) != EOF)
   {
     // non-oriented graph
     G->neighbour[x].neighbour[G->neighbour[x].neighbour_count] = y;
